@@ -1,0 +1,39 @@
+broker:
+  account_id: "REPLACE_WITH_OANDA_ACCOUNT_ID"
+  environment: "practice"   # practice | live
+
+instruments:
+  - EUR_USD
+  - GBP_USD
+  - USD_JPY
+  - AUD_USD
+  - USD_CAD
+
+momentum:
+  timeframes: [M15, H1, H4]
+  weights:
+    M15: 0.20
+    H1:  0.40
+    H4:  0.40
+  lookback: 250
+  thresholds:
+    strong: 0.55      # |score| >= strong  -> STRONG_UP / STRONG_DOWN
+    weak:   0.20      # |score| >= weak    -> UP / DOWN, else NEUTRAL
+    adx_trending: 20  # ADX above this means a real trend exists
+
+risk:
+  risk_per_trade: 0.005          # 0.5% of equity at stop
+  max_concurrent_positions: 3
+  one_position_per_instrument: true
+  atr_stop_mult: 2.0
+  reward_risk: 2.0
+  daily_loss_halt: 0.03          # halt if equity drops 3% intraday
+
+strategy:
+  name: momentum_breakout
+  params:
+    breakout_lookback: 20        # Donchian window on H1
+    confirm_timeframe: H1
+
+loop:
+  poll_seconds: 60
